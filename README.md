@@ -15,3 +15,12 @@ curl -XPOST 'localhost:80/project/list' -H 'Content-Type: application/json' -d '
 You can list projects by a member.  Only Public projects are listed.  If the member is logged then the private projects the member belongs to are also listed.
 
 curl -XPOST 'localhost:80/project/list/TH@poetrysociety.org' -H 'Content-Type: application/json' -d '{"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Ik9XQHBvZXRyeXNvY2lldHkub3JnIiwiaWF0IjoxNjQyMDE0ODAxLCJleHAiOjE2NDIwMjIwMDF9.Nsu3-QGuHvOPjdRsSTySDxjQ1Au53GC08xfHxhfccbU"}'
+
+In order to start the project, it needs a postgres database schema and data:
+Connect to the database via psql.  Then issue the following commands:
+
+create database zer0
+
+\c zer0
+
+\i create_db_with_data.sql
