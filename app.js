@@ -114,13 +114,23 @@ app.post("/project/list", async (req, res) => {
     let jsonMain = {"projects":[]};
 
     const clientpg = await db.clientpg();
-    let queryText = "SELECT name, visibility, status, type FROM project WHERE visibility = 'PUBLIC' " + 
+    let queryText = "";
+    let result;
+
+    if (authorized){
+      queryText = "SELECT name, visibility, status, type FROM project WHERE visibility = 'PUBLIC' " + 
                     "UNION ALL " + 
                     "SELECT p.name, p.visibility, p.status, p.type " + 
                         "FROM project_x_users x " + 
                         "INNER JOIN users AS u ON x.users_id = u.id INNER JOIN project AS p ON x.project_id = p.id " +
-                        "WHERE email = 'TH@poetrysociety.org'";
-    let result = await clientpg.query(queryText);
+                        "WHERE email = $1";
+      result = await clientpg.query(queryText, [email]);
+    }
+    else {
+      queryText = "SELECT name, visibility, status, type FROM project WHERE visibility = 'PUBLIC'";
+      result = await clientpg.query(queryText);
+    }
+
 
     if (result.rowCount > 0){
       for (let i = 0; i < result.rowCount; i++) {
@@ -186,7 +196,7 @@ app.post("/project/list/:email", async (req, res) => {
 
 app.all("/authtest", Auth.verifyToken, (req, res) => {
   const { email } = res;
-  res.status(200).send("Welcome 🙌 " + email);
+  res.status(200).send("Welcome " + email);
 });
 
 
