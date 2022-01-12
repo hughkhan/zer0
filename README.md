@@ -1,6 +1,6 @@
 # zer0
 
-In order to obtain a valid jwt token need to log in with one of the users:
+In order to obtain a valid jwt token you need to log in with one of the users:
 
 curl -XPOST 'localhost:80/login' -H 'Content-Type: application/json' -d '{"email": "TH@poetrysociety.org", "password": "password"}'
 
