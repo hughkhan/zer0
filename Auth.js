@@ -5,7 +5,7 @@ class Auth {
 
 //    static TOKEN = config.TOKEN_KEY;
 
-    static verifyToken = (req, res, next) => {
+    static verifyToken (req, res, next) {
         const token =
           req.body.token || req.query.token || req.headers["x-access-token"];
       
@@ -22,7 +22,7 @@ class Auth {
         return next();
       };
 
-    static isTokenValid = (token) => {
+    static isTokenValid (token) {
         try {
             const decoded = jwt.verify(token, config.TOKEN_KEY);
             return decoded.email;
